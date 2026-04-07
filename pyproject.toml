@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "stacklens"
+version = "0.1.0"
+description = "Python SDK for StackLens — observability and governance for your AI stack"
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = ["llm", "observability", "tracing", "ai", "governance", "prompt-management"]
+license = { file = "LICENSE" }
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: Other/Proprietary License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.24",
+    "respx>=0.21",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[project.urls]
+Homepage = "https://getstacklens.ai"
+Documentation = "https://docs.getstacklens.ai"
+Repository = "https://github.com/getstacklens/stacklens-sdk-python"
+"Bug Tracker" = "https://github.com/getstacklens/stacklens-sdk-python/issues"
