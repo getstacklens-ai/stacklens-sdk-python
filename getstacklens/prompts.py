@@ -10,7 +10,7 @@ class PromptsClient:
     """
     FlowOps client for fetching versioned prompts at runtime.
 
-    Prefer using the module-level ``stacklens.prompts.get()`` helper over
+    Prefer using the module-level ``getstacklens.prompts.get()`` helper over
     instantiating this directly.
     """
 
@@ -31,7 +31,7 @@ class PromptsClient:
 
         Example::
 
-            system_prompt = stacklens.prompts.get("support-system-prompt", env="production")
+            system_prompt = getstacklens.prompts.get("support-system-prompt", env="production")
         """
         resp = self._http.get(f"{_PROMPTS_PATH}/{name}", params={"env": env})
         return resp["content"]
@@ -41,7 +41,7 @@ class AsyncPromptsClient:
     """
     Async FlowOps client for fetching versioned prompts at runtime.
 
-    Prefer using the module-level ``stacklens.aprompts.get()`` helper over
+    Prefer using the module-level ``getstacklens.aprompts.get()`` helper over
     instantiating this directly.
     """
 
@@ -54,7 +54,7 @@ class AsyncPromptsClient:
 
         Example::
 
-            system_prompt = await stacklens.aprompts.get("support-system-prompt")
+            system_prompt = await getstacklens.aprompts.get("support-system-prompt")
         """
         resp = await self._http.get(f"{_PROMPTS_PATH}/{name}", params={"env": env})
         return resp["content"]

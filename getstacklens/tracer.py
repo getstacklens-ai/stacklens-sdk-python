@@ -15,7 +15,7 @@ class Span:
     """
     A single span within a trace.
 
-    Create spans via :func:`stacklens.start_trace` rather than instantiating directly.
+    Create spans via :func:`getstacklens.start_trace` rather than instantiating directly.
     """
 
     def __init__(
@@ -71,7 +71,7 @@ class Span:
 
         Example::
 
-            with stacklens.start_trace("chat") as span:
+            with getstacklens.start_trace("chat") as span:
                 response = openai_client.chat.completions.create(...)
                 span.record_llm(
                     model="gpt-4o",
@@ -117,8 +117,8 @@ class Tracer:
     """
     StackTrace client.
 
-    Prefer using the module-level :func:`stacklens.trace` and
-    :func:`stacklens.start_trace` helpers over instantiating this directly.
+    Prefer using the module-level :func:`getstacklens.trace` and
+    :func:`getstacklens.start_trace` helpers over instantiating this directly.
     """
 
     def __init__(self, api_key: str, endpoint: str) -> None:
@@ -217,8 +217,8 @@ class AsyncTracer:
     """
     Async StackTrace client for use with asyncio / FastAPI / async frameworks.
 
-    Prefer the module-level :func:`stacklens.atrace` and
-    :func:`stacklens.astart_trace` helpers over instantiating this directly.
+    Prefer the module-level :func:`getstacklens.atrace` and
+    :func:`getstacklens.astart_trace` helpers over instantiating this directly.
     """
 
     def __init__(self, api_key: str, endpoint: str) -> None:

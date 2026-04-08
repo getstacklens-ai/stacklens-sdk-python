@@ -6,15 +6,15 @@ Observability and governance for your AI stack.
 
 Quickstart::
 
-    import stacklens
+    import getstacklens
 
-    stacklens.configure(api_key="sl-xxxx")
-    stacklens.trace("my-llm-call", model="gpt-4o", provider="openai",
+    getstacklens.configure(api_key="sl-xxxx")
+    getstacklens.trace("my-llm-call", model="gpt-4o", provider="openai",
                     input_tokens=150, output_tokens=200)
 
 Full example with context manager::
 
-    with stacklens.start_trace("agent-run") as span:
+    with getstacklens.start_trace("agent-run") as span:
         response = openai_client.chat.completions.create(
             model="gpt-4o",
             messages=[{"role": "user", "content": "Hello"}],
@@ -27,7 +27,7 @@ Full example with context manager::
             completion=response.choices[0].message.content,
         )
 
-Docs: https://docs.getstacklens.ai
+Docs: https://docs.getgetstacklens.ai
 """
 from __future__ import annotations
 
@@ -61,7 +61,7 @@ __all__ = [
     "NetworkError",
 ]
 
-_DEFAULT_ENDPOINT = "https://api.getstacklens.ai"
+_DEFAULT_ENDPOINT = "https://api.getgetstacklens.ai"
 
 _tracer: Tracer | None = None
 _prompts_client: PromptsClient | None = None
@@ -79,15 +79,15 @@ def configure(api_key: str, endpoint: str = _DEFAULT_ENDPOINT) -> None:
         api_key:  Your StackLens API key (starts with ``sl-``).
                   Generate one from the StackLens dashboard under Settings → API Keys.
         endpoint: Override the API base URL for self-hosted deployments.
-                  Defaults to ``https://api.getstacklens.ai``.
+                  Defaults to ``https://api.getgetstacklens.ai``.
 
     Example::
 
-        import stacklens
-        stacklens.configure(api_key="sl-xxxx")
+        import getstacklens
+        getstacklens.configure(api_key="sl-xxxx")
 
         # Self-hosted:
-        stacklens.configure(api_key="sl-xxxx", endpoint="https://api.your-domain.com")
+        getstacklens.configure(api_key="sl-xxxx", endpoint="https://api.your-domain.com")
     """
     global _tracer, _prompts_client, _async_tracer, _async_prompts_client
     _tracer = Tracer(api_key=api_key, endpoint=endpoint)
@@ -100,7 +100,7 @@ def _require_tracer() -> Tracer:
     if _tracer is None:
         raise ConfigurationError(
             "StackLens is not configured. "
-            "Call stacklens.configure(api_key='sl-...') before tracing."
+            "Call getstacklens.configure(api_key='sl-...') before tracing."
         )
     return _tracer
 
@@ -146,7 +146,7 @@ def trace(
 
         start = datetime.now(timezone.utc)
         response = client.chat.completions.create(...)
-        stacklens.trace(
+        getstacklens.trace(
             "my-llm-call",
             model="gpt-4o",
             provider="openai",
@@ -183,12 +183,12 @@ def start_trace(name: str) -> Iterator[Span]:
         name: A descriptive name for this trace (e.g. ``"agent-run"``).
 
     Yields:
-        :class:`~stacklens.tracer.Span` — call :meth:`~stacklens.tracer.Span.record_llm`
+        :class:`~getstacklens.tracer.Span` — call :meth:`~getstacklens.tracer.Span.record_llm`
         on it to attach LLM metadata.
 
     Example::
 
-        with stacklens.start_trace("agent-run") as span:
+        with getstacklens.start_trace("agent-run") as span:
             response = openai_client.chat.completions.create(
                 model="gpt-4o",
                 messages=[{"role": "user", "content": "Hello"}],
@@ -209,7 +209,7 @@ def _require_async_tracer() -> AsyncTracer:
     if _async_tracer is None:
         raise ConfigurationError(
             "StackLens is not configured. "
-            "Call stacklens.configure(api_key='sl-...') before tracing."
+            "Call getstacklens.configure(api_key='sl-...') before tracing."
         )
     return _async_tracer
 
@@ -236,7 +236,7 @@ async def atrace(
 
     Example::
 
-        trace_id = await stacklens.atrace(
+        trace_id = await getstacklens.atrace(
             "chat-completion",
             model="gpt-4o",
             provider="openai",
@@ -269,7 +269,7 @@ async def astart_trace(name: str) -> AsyncIterator[Span]:
 
     Example::
 
-        async with stacklens.astart_trace("agent-run") as span:
+        async with getstacklens.astart_trace("agent-run") as span:
             response = await async_client.chat.completions.create(...)
             span.record_llm(
                 model="gpt-4o",
@@ -283,7 +283,7 @@ async def astart_trace(name: str) -> AsyncIterator[Span]:
 
 
 class _PromptsNamespace:
-    """Access FlowOps versioned prompts. Use ``stacklens.prompts.get()``."""
+    """Access FlowOps versioned prompts. Use ``getstacklens.prompts.get()``."""
 
     def get(self, name: str, *, env: str = "production") -> str:
         """
@@ -299,13 +299,13 @@ class _PromptsNamespace:
 
         Example::
 
-            system_prompt = stacklens.prompts.get("support-system-prompt")
-            user_prompt = stacklens.prompts.get("onboarding-email", env="staging")
+            system_prompt = getstacklens.prompts.get("support-system-prompt")
+            user_prompt = getstacklens.prompts.get("onboarding-email", env="staging")
         """
         if _prompts_client is None:
             raise ConfigurationError(
                 "StackLens is not configured. "
-                "Call stacklens.configure(api_key='sl-...') first."
+                "Call getstacklens.configure(api_key='sl-...') first."
             )
         return _prompts_client.get(name, env=env)
 
@@ -314,7 +314,7 @@ prompts = _PromptsNamespace()
 
 
 class _AsyncPromptsNamespace:
-    """Async access to FlowOps versioned prompts. Use ``await stacklens.aprompts.get()``."""
+    """Async access to FlowOps versioned prompts. Use ``await getstacklens.aprompts.get()``."""
 
     async def get(self, name: str, *, env: str = "production") -> str:
         """
@@ -330,12 +330,12 @@ class _AsyncPromptsNamespace:
 
         Example::
 
-            system_prompt = await stacklens.aprompts.get("support-system-prompt")
+            system_prompt = await getstacklens.aprompts.get("support-system-prompt")
         """
         if _async_prompts_client is None:
             raise ConfigurationError(
                 "StackLens is not configured. "
-                "Call stacklens.configure(api_key='sl-...') first."
+                "Call getstacklens.configure(api_key='sl-...') first."
             )
         return await _async_prompts_client.get(name, env=env)
 
