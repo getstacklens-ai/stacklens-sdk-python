@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "stacklens"
+name = "getstacklens"
 version = "0.1.0"
 description = "Python SDK for StackLens — observability and governance for your AI stack"
 readme = "README.md"
@@ -40,5 +40,5 @@ asyncio_mode = "auto"
 [project.urls]
 Homepage = "https://getstacklens.ai"
 Documentation = "https://docs.getstacklens.ai"
-Repository = "https://github.com/getstacklens/stacklens-sdk-python"
-"Bug Tracker" = "https://github.com/getstacklens/stacklens-sdk-python/issues"
+Repository = "https://github.com/getstacklens-ai/stacklens-sdk-python"
+"Bug Tracker" = "https://github.com/getstacklens-ai/stacklens-sdk-python/issues"

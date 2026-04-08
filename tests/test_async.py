@@ -1,12 +1,12 @@
-"""Tests for async API: stacklens.atrace(), stacklens.astart_trace(), stacklens.aprompts."""
+"""Tests for async API: getstacklens.atrace(), getstacklens.astart_trace(), getstacklens.aprompts."""
 from __future__ import annotations
 
 import httpx
 import pytest
 import respx
 
-import stacklens
-from stacklens.exceptions import AuthError, ConfigurationError, NetworkError
+import getstacklens
+from getstacklens.exceptions import AuthError, ConfigurationError, NetworkError
 
 from .conftest import PROMPTS_URL, TRACES_URL
 
@@ -14,7 +14,7 @@ from .conftest import PROMPTS_URL, TRACES_URL
 @respx.mock
 async def test_atrace_returns_trace_id():
     respx.post(TRACES_URL).mock(return_value=httpx.Response(200, json={}))
-    trace_id = await stacklens.atrace(
+    trace_id = await getstacklens.atrace(
         "async-call",
         model="gpt-4o",
         provider="openai",
@@ -28,7 +28,7 @@ async def test_atrace_returns_trace_id():
 @respx.mock
 async def test_atrace_sends_correct_payload():
     route = respx.post(TRACES_URL).mock(return_value=httpx.Response(200, json={}))
-    await stacklens.atrace(
+    await getstacklens.atrace(
         "my-async-call",
         model="gpt-4o",
         provider="openai",
@@ -48,7 +48,7 @@ async def test_atrace_sends_correct_payload():
 @respx.mock
 async def test_astart_trace_happy_path():
     route = respx.post(TRACES_URL).mock(return_value=httpx.Response(200, json={}))
-    async with stacklens.astart_trace("async-agent") as span:
+    async with getstacklens.astart_trace("async-agent") as span:
         span.record_llm(
             model="gpt-4o",
             provider="openai",
@@ -66,7 +66,7 @@ async def test_astart_trace_happy_path():
 async def test_astart_trace_sets_error_on_exception():
     route = respx.post(TRACES_URL).mock(return_value=httpx.Response(200, json={}))
     with pytest.raises(RuntimeError):
-        async with stacklens.astart_trace("failing-async") as span:
+        async with getstacklens.astart_trace("failing-async") as span:
             raise RuntimeError("async failure")
     import json
     payload = json.loads(route.calls.last.request.content)
@@ -78,7 +78,7 @@ async def test_aprompts_get_returns_content():
     respx.get(f"{PROMPTS_URL}/async-prompt").mock(
         return_value=httpx.Response(200, json={"content": "Async system prompt."})
     )
-    result = await stacklens.aprompts.get("async-prompt")
+    result = await getstacklens.aprompts.get("async-prompt")
     assert result == "Async system prompt."
 
 
@@ -87,7 +87,7 @@ async def test_aprompts_get_passes_env():
     route = respx.get(f"{PROMPTS_URL}/sys").mock(
         return_value=httpx.Response(200, json={"content": "dev prompt"})
     )
-    await stacklens.aprompts.get("sys", env="dev")
+    await getstacklens.aprompts.get("sys", env="dev")
     assert route.calls.last.request.url.params["env"] == "dev"
 
 
@@ -95,7 +95,7 @@ async def test_aprompts_get_passes_env():
 async def test_atrace_401_raises_auth_error():
     respx.post(TRACES_URL).mock(return_value=httpx.Response(401))
     with pytest.raises(AuthError):
-        await stacklens.atrace(
+        await getstacklens.atrace(
             "x", model="gpt-4o", provider="openai", input_tokens=1, output_tokens=1
         )
 
@@ -108,7 +108,7 @@ async def test_atrace_network_error_raises_network_error(monkeypatch):
     monkeypatch.setattr("asyncio.sleep", no_sleep)
     respx.post(TRACES_URL).mock(side_effect=httpx.ConnectError("refused"))
     with pytest.raises(NetworkError):
-        await stacklens.atrace(
+        await getstacklens.atrace(
             "x", model="gpt-4o", provider="openai", input_tokens=1, output_tokens=1
         )
 
@@ -129,21 +129,21 @@ async def test_atrace_retry_on_5xx(monkeypatch):
         return httpx.Response(200, json={})
 
     respx.post(TRACES_URL).mock(side_effect=side_effect)
-    await stacklens.atrace(
+    await getstacklens.atrace(
         "x", model="gpt-4o", provider="openai", input_tokens=1, output_tokens=1
     )
     assert call_count == 2
 
 
 async def test_atrace_raises_if_not_configured():
-    stacklens._async_tracer = None
+    getstacklens._async_tracer = None
     with pytest.raises(ConfigurationError):
-        await stacklens.atrace(
+        await getstacklens.atrace(
             "x", model="gpt-4o", provider="openai", input_tokens=1, output_tokens=1
         )
 
 
 async def test_aprompts_raises_if_not_configured():
-    stacklens._async_prompts_client = None
+    getstacklens._async_prompts_client = None
     with pytest.raises(ConfigurationError):
-        await stacklens.aprompts.get("x")
+        await getstacklens.aprompts.get("x")

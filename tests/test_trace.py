@@ -1,4 +1,4 @@
-"""Tests for stacklens.trace() and stacklens.start_trace()."""
+"""Tests for getstacklens.trace() and getstacklens.start_trace()."""
 from __future__ import annotations
 
 from datetime import datetime, timezone
@@ -7,8 +7,8 @@ import httpx
 import pytest
 import respx
 
-import stacklens
-from stacklens.exceptions import ConfigurationError
+import getstacklens
+from getstacklens.exceptions import ConfigurationError
 
 from .conftest import TRACES_URL
 
@@ -16,7 +16,7 @@ from .conftest import TRACES_URL
 @respx.mock
 def test_trace_returns_trace_id():
     respx.post(TRACES_URL).mock(return_value=httpx.Response(200, json={}))
-    trace_id = stacklens.trace(
+    trace_id = getstacklens.trace(
         "chat-completion",
         model="gpt-4o",
         provider="openai",
@@ -30,7 +30,7 @@ def test_trace_returns_trace_id():
 @respx.mock
 def test_trace_sends_correct_payload():
     route = respx.post(TRACES_URL).mock(return_value=httpx.Response(200, json={}))
-    stacklens.trace(
+    getstacklens.trace(
         "my-call",
         model="claude-3-5-sonnet",
         provider="anthropic",
@@ -61,7 +61,7 @@ def test_trace_sends_correct_payload():
 def test_trace_with_start_time():
     route = respx.post(TRACES_URL).mock(return_value=httpx.Response(200, json={}))
     start = datetime(2024, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
-    stacklens.trace(
+    getstacklens.trace(
         "timed-call",
         model="gpt-4o",
         provider="openai",
@@ -77,7 +77,7 @@ def test_trace_with_start_time():
 @respx.mock
 def test_trace_total_tokens_computed_when_omitted():
     route = respx.post(TRACES_URL).mock(return_value=httpx.Response(200, json={}))
-    stacklens.trace(
+    getstacklens.trace(
         "call",
         model="gpt-4o",
         provider="openai",
@@ -92,7 +92,7 @@ def test_trace_total_tokens_computed_when_omitted():
 @respx.mock
 def test_start_trace_context_manager_happy_path():
     route = respx.post(TRACES_URL).mock(return_value=httpx.Response(200, json={}))
-    with stacklens.start_trace("agent-run") as span:
+    with getstacklens.start_trace("agent-run") as span:
         span.record_llm(
             model="gpt-4o",
             provider="openai",
@@ -116,7 +116,7 @@ def test_start_trace_context_manager_happy_path():
 def test_start_trace_sets_error_status_on_exception():
     route = respx.post(TRACES_URL).mock(return_value=httpx.Response(200, json={}))
     with pytest.raises(ValueError):
-        with stacklens.start_trace("failing-agent") as span:
+        with getstacklens.start_trace("failing-agent") as span:
             raise ValueError("something went wrong")
     import json
     payload = json.loads(route.calls.last.request.content)
@@ -124,13 +124,13 @@ def test_start_trace_sets_error_status_on_exception():
 
 
 def test_trace_raises_if_not_configured():
-    stacklens._tracer = None
+    getstacklens._tracer = None
     with pytest.raises(ConfigurationError):
-        stacklens.trace("x", model="gpt-4o", provider="openai", input_tokens=1, output_tokens=1)
+        getstacklens.trace("x", model="gpt-4o", provider="openai", input_tokens=1, output_tokens=1)
 
 
 def test_start_trace_raises_if_not_configured():
-    stacklens._tracer = None
+    getstacklens._tracer = None
     with pytest.raises(ConfigurationError):
-        with stacklens.start_trace("x"):
+        with getstacklens.start_trace("x"):
             pass

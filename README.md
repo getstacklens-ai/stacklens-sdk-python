@@ -7,7 +7,7 @@ Trace LLM calls, fetch versioned prompts, and enforce AI governance policies —
 ## Installation
 
 ```bash
-pip install stacklens
+pip install getstacklens
 ```
 
 Requires Python 3.9+.
@@ -15,10 +15,10 @@ Requires Python 3.9+.
 ## Quickstart
 
 ```python
-import stacklens
+import getstacklens
 
-stacklens.configure(api_key="sl-xxxx")
-stacklens.trace("my-llm-call", model="gpt-4o", provider="openai", input_tokens=150, output_tokens=200)
+getstacklens.configure(api_key="sl-xxxx")
+getstacklens.trace("my-llm-call", model="gpt-4o", provider="openai", input_tokens=150, output_tokens=200)
 ```
 
 Get your API key from the [StackLens dashboard](https://app.getstacklens.ai) under **Settings → API Keys**.
@@ -31,16 +31,16 @@ For accurate latency, record `start_time` before the call and pass it in:
 
 ```python
 from datetime import datetime, timezone
-import stacklens
+import getstacklens
 
-stacklens.configure(api_key="sl-xxxx")
+getstacklens.configure(api_key="sl-xxxx")
 
 start = datetime.now(timezone.utc)
 response = openai_client.chat.completions.create(
     model="gpt-4o",
     messages=[{"role": "user", "content": "Summarise this document."}],
 )
-stacklens.trace(
+getstacklens.trace(
     "chat-completion",
     model="gpt-4o",
     provider="openai",
@@ -54,12 +54,12 @@ stacklens.trace(
 
 ```python
 import openai
-import stacklens
+import getstacklens
 
-stacklens.configure(api_key="sl-xxxx")
+getstacklens.configure(api_key="sl-xxxx")
 client = openai.OpenAI()
 
-with stacklens.start_trace("customer-support-agent") as span:
+with getstacklens.start_trace("customer-support-agent") as span:
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[{"role": "user", "content": "How do I reset my password?"}],
@@ -82,12 +82,12 @@ If an exception is raised inside the context, the span status is automatically s
 Manage prompts in the StackLens dashboard, then fetch them at runtime — no deploys needed.
 
 ```python
-import stacklens
+import getstacklens
 
-stacklens.configure(api_key="sl-xxxx")
+getstacklens.configure(api_key="sl-xxxx")
 
 # Fetch the active prompt for the production environment
-system_prompt = stacklens.prompts.get("support-system-prompt", env="production")
+system_prompt = getstacklens.prompts.get("support-system-prompt", env="production")
 
 # Use in an LLM call
 response = client.chat.completions.create(
@@ -106,7 +106,7 @@ Available environments: `"dev"`, `"staging"`, `"production"` (default).
 Point the SDK at your own StackLens instance:
 
 ```python
-stacklens.configure(
+getstacklens.configure(
     api_key="sl-xxxx",
     endpoint="https://api.your-domain.com",
 )
@@ -132,5 +132,5 @@ Works with any LLM provider — pass the model and provider name you use:
 - [Documentation](https://docs.getstacklens.ai)
 - [StackLens Platform](https://getstacklens.ai)
 - [Dashboard](https://app.getstacklens.ai)
-- [GitHub](https://github.com/getstacklens/stacklens-sdk-python)
-- [Report an issue](https://github.com/getstacklens/stacklens-sdk-python/issues)
+- [GitHub](https://github.com/getstacklens-ai/stacklens-sdk-python)
+- [Report an issue](https://github.com/getstacklens-ai/stacklens-sdk-python/issues)
