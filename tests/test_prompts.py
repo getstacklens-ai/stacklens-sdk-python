@@ -1,4 +1,5 @@
 """Tests for getstacklens.prompts.get()."""
+
 from __future__ import annotations
 
 import httpx
@@ -14,7 +15,9 @@ from .conftest import PROMPTS_URL
 @respx.mock
 def test_prompts_get_returns_content():
     respx.get(f"{PROMPTS_URL}/my-prompt").mock(
-        return_value=httpx.Response(200, json={"content": "You are a helpful assistant."})
+        return_value=httpx.Response(
+            200, json={"content": "You are a helpful assistant."}
+        )
     )
     result = getstacklens.prompts.get("my-prompt")
     assert result == "You are a helpful assistant."

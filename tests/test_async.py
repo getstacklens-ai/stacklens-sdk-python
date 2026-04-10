@@ -1,4 +1,5 @@
 """Tests for async API: getstacklens.atrace(), getstacklens.astart_trace(), getstacklens.aprompts."""
+
 from __future__ import annotations
 
 import httpx
@@ -38,6 +39,7 @@ async def test_atrace_sends_correct_payload():
         tags=["async"],
     )
     import json
+
     payload = json.loads(route.calls.last.request.content)
     assert payload["name"] == "my-async-call"
     assert payload["llmSpan"]["inputTokens"] == 20
@@ -57,6 +59,7 @@ async def test_astart_trace_happy_path():
         )
     assert route.called
     import json
+
     payload = json.loads(route.calls.last.request.content)
     assert payload["name"] == "async-agent"
     assert payload["status"] == "ok"
@@ -66,9 +69,10 @@ async def test_astart_trace_happy_path():
 async def test_astart_trace_sets_error_on_exception():
     route = respx.post(TRACES_URL).mock(return_value=httpx.Response(200, json={}))
     with pytest.raises(RuntimeError):
-        async with getstacklens.astart_trace("failing-async") as span:
+        async with getstacklens.astart_trace("failing-async") as _:
             raise RuntimeError("async failure")
     import json
+
     payload = json.loads(route.calls.last.request.content)
     assert payload["status"] == "error"
 

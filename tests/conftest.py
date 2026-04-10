@@ -1,4 +1,5 @@
 """Shared test fixtures."""
+
 from __future__ import annotations
 
 import pytest
@@ -6,7 +7,7 @@ import pytest
 import getstacklens
 
 API_KEY = "sl-test-key"
-ENDPOINT = "https://api.getgetstacklens.ai"
+ENDPOINT = "https://api.getstacklens.ai"
 TRACES_URL = f"{ENDPOINT}/api/v1/stacktrace/v1/traces"
 PROMPTS_URL = f"{ENDPOINT}/api/v1/flowops/v1/prompts/by-name"
 
