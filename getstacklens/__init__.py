@@ -27,15 +27,22 @@ Full example with context manager::
             completion=response.choices[0].message.content,
         )
 
-Docs: https://docs.getgetstacklens.ai
+Docs: https://getstacklens.ai/docs
 """
+
 from __future__ import annotations
 
 from contextlib import asynccontextmanager, contextmanager
 from datetime import datetime
 from typing import AsyncIterator, Iterator
 
-from .exceptions import ApiError, AuthError, ConfigurationError, NetworkError, StackLensError
+from .exceptions import (
+    ApiError,
+    AuthError,
+    ConfigurationError,
+    NetworkError,
+    StackLensError,
+)
 from .prompts import AsyncPromptsClient, PromptsClient
 from .tracer import AsyncTracer, Span, Tracer
 
@@ -61,7 +68,7 @@ __all__ = [
     "NetworkError",
 ]
 
-_DEFAULT_ENDPOINT = "https://api.getgetstacklens.ai"
+_DEFAULT_ENDPOINT = "https://api.getstacklens.ai"
 
 _tracer: Tracer | None = None
 _prompts_client: PromptsClient | None = None
@@ -79,7 +86,7 @@ def configure(api_key: str, endpoint: str = _DEFAULT_ENDPOINT) -> None:
         api_key:  Your StackLens API key (starts with ``sl-``).
                   Generate one from the StackLens dashboard under Settings → API Keys.
         endpoint: Override the API base URL for self-hosted deployments.
-                  Defaults to ``https://api.getgetstacklens.ai``.
+                  Defaults to ``https://api.getstacklens.ai``.
 
     Example::
 

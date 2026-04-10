@@ -39,6 +39,6 @@ asyncio_mode = "auto"
 
 [project.urls]
 Homepage = "https://getstacklens.ai"
-Documentation = "https://docs.getstacklens.ai"
+Documentation = "https://getstacklens.ai/docs"
 Repository = "https://github.com/getstacklens-ai/stacklens-sdk-python"
 "Bug Tracker" = "https://github.com/getstacklens-ai/stacklens-sdk-python/issues"

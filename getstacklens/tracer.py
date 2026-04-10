@@ -1,4 +1,5 @@
 """StackTrace tracing client."""
+
 from __future__ import annotations
 
 import uuid
@@ -85,7 +86,9 @@ class Span:
             "provider": provider,
             "inputTokens": input_tokens,
             "outputTokens": output_tokens,
-            "totalTokens": total_tokens if total_tokens is not None else input_tokens + output_tokens,
+            "totalTokens": total_tokens
+            if total_tokens is not None
+            else input_tokens + output_tokens,
             "estimatedCostUsd": cost_usd,
             "temperature": temperature,
             "maxTokens": max_tokens,
@@ -174,7 +177,9 @@ class Tracer:
                 "provider": provider,
                 "inputTokens": input_tokens,
                 "outputTokens": output_tokens,
-                "totalTokens": total_tokens if total_tokens is not None else input_tokens + output_tokens,
+                "totalTokens": total_tokens
+                if total_tokens is not None
+                else input_tokens + output_tokens,
                 "estimatedCostUsd": cost_usd,
                 "temperature": None,
                 "maxTokens": None,
@@ -260,7 +265,9 @@ class AsyncTracer:
                 "provider": provider,
                 "inputTokens": input_tokens,
                 "outputTokens": output_tokens,
-                "totalTokens": total_tokens if total_tokens is not None else input_tokens + output_tokens,
+                "totalTokens": total_tokens
+                if total_tokens is not None
+                else input_tokens + output_tokens,
                 "estimatedCostUsd": cost_usd,
                 "temperature": None,
                 "maxTokens": None,

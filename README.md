@@ -112,7 +112,7 @@ getstacklens.configure(
 )
 ```
 
-See the [self-hosting guide](https://docs.getstacklens.ai/self-hosting) for setup instructions.
+See the [self-hosting guide](https://getstacklens.ai/docs/self-hosting) for setup instructions.
 
 ## Supported providers
 
@@ -129,7 +129,7 @@ Works with any LLM provider — pass the model and provider name you use:
 
 ## Links
 
-- [Documentation](https://docs.getstacklens.ai)
+- [Documentation](https://getstacklens.ai/docs)
 - [StackLens Platform](https://getstacklens.ai)
 - [Dashboard](https://app.getstacklens.ai)
 - [GitHub](https://github.com/getstacklens-ai/stacklens-sdk-python)
