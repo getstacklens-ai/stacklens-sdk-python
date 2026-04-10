@@ -46,7 +46,7 @@ from .exceptions import (
 from .prompts import AsyncPromptsClient, PromptsClient
 from .tracer import AsyncTracer, Span, Tracer
 
-__version__ = "0.1.0"
+__version__ = "0.0.1"
 
 __all__ = [
     "configure",
