@@ -121,7 +121,7 @@ def test_start_trace_context_manager_happy_path():
 def test_start_trace_sets_error_status_on_exception():
     route = respx.post(TRACES_URL).mock(return_value=httpx.Response(200, json={}))
     with pytest.raises(ValueError):
-        with getstacklens.start_trace("failing-agent") as span:
+        with getstacklens.start_trace("failing-agent") as _:
             raise ValueError("something went wrong")
     import json
 

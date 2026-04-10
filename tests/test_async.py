@@ -69,7 +69,7 @@ async def test_astart_trace_happy_path():
 async def test_astart_trace_sets_error_on_exception():
     route = respx.post(TRACES_URL).mock(return_value=httpx.Response(200, json={}))
     with pytest.raises(RuntimeError):
-        async with getstacklens.astart_trace("failing-async") as span:
+        async with getstacklens.astart_trace("failing-async") as _:
             raise RuntimeError("async failure")
     import json
 
