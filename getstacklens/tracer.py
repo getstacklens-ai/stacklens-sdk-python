@@ -197,7 +197,7 @@ class Tracer:
         """
         Context manager for tracing a multi-step or agent operation.
 
-        Flushes the span to StackLens when the context exits (including on error).
+        Flushes the span to GetStackLens when the context exits (including on error).
 
         Example::
 
@@ -285,7 +285,7 @@ class AsyncTracer:
         """
         Async context manager for tracing a multi-step or agent operation.
 
-        Flushes the span to StackLens when the context exits (including on error).
+        Flushes the span to GetStackLens when the context exits (including on error).
 
         Example::
 
