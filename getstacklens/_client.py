@@ -65,7 +65,7 @@ class _HttpClient:
                 if attempt < _RETRY_ATTEMPTS - 1:
                     time.sleep(_RETRY_DELAY)
         raise NetworkError(
-            f"Could not reach StackLens API at {self._base}: {last_exc}"
+            f"Could not reach GetStackLens API at {self._base}: {last_exc}"
         ) from last_exc
 
     def close(self) -> None:
@@ -108,7 +108,7 @@ class _AsyncHttpClient:
                 if attempt < _RETRY_ATTEMPTS - 1:
                     await asyncio.sleep(_RETRY_DELAY)
         raise NetworkError(
-            f"Could not reach StackLens API at {self._base}: {last_exc}"
+            f"Could not reach GetStackLens API at {self._base}: {last_exc}"
         ) from last_exc
 
     async def close(self) -> None:

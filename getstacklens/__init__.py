@@ -1,6 +1,6 @@
 """
-StackLens Python SDK
-====================
+GetStackLens Python SDK
+=======================
 
 Observability and governance for your AI stack.
 
@@ -40,8 +40,8 @@ from .exceptions import (
     ApiError,
     AuthError,
     ConfigurationError,
+    GetStackLensError,
     NetworkError,
-    StackLensError,
 )
 from .prompts import AsyncPromptsClient, PromptsClient
 from .tracer import AsyncTracer, Span, Tracer
@@ -61,7 +61,7 @@ __all__ = [
     "Span",
     "PromptsClient",
     "AsyncPromptsClient",
-    "StackLensError",
+    "GetStackLensError",
     "ConfigurationError",
     "AuthError",
     "ApiError",
@@ -78,13 +78,13 @@ _async_prompts_client: AsyncPromptsClient | None = None
 
 def configure(api_key: str, endpoint: str = _DEFAULT_ENDPOINT) -> None:
     """
-    Configure the StackLens SDK.
+    Configure the GetStackLens SDK.
 
     Call this once at application startup before any tracing or prompt calls.
 
     Args:
-        api_key:  Your StackLens API key (starts with ``sl-``).
-                  Generate one from the StackLens dashboard under Settings → API Keys.
+        api_key:  Your GetStackLens API key (starts with ``sl-``).
+                  Generate one from the GetStackLens dashboard under Settings → API Keys.
         endpoint: Override the API base URL for self-hosted deployments.
                   Defaults to ``https://api.getstacklens.ai``.
 
@@ -106,7 +106,7 @@ def configure(api_key: str, endpoint: str = _DEFAULT_ENDPOINT) -> None:
 def _require_tracer() -> Tracer:
     if _tracer is None:
         raise ConfigurationError(
-            "StackLens is not configured. "
+            "GetStackLens is not configured. "
             "Call getstacklens.configure(api_key='sl-...') before tracing."
         )
     return _tracer
@@ -128,7 +128,7 @@ def trace(
     end_time: datetime | None = None,
 ) -> str:
     """
-    Record a single LLM call and send it to StackLens. Returns the trace ID.
+    Record a single LLM call and send it to GetStackLens. Returns the trace ID.
 
     This is the simplest tracing path — one call, no context managers needed.
 
@@ -183,7 +183,7 @@ def start_trace(name: str) -> Iterator[Span]:
     """
     Context manager for tracing a multi-step or agent operation.
 
-    The span is sent to StackLens when the context exits. If an exception
+    The span is sent to GetStackLens when the context exits. If an exception
     is raised, the span status is automatically set to ``'error'``.
 
     Args:
@@ -215,7 +215,7 @@ def start_trace(name: str) -> Iterator[Span]:
 def _require_async_tracer() -> AsyncTracer:
     if _async_tracer is None:
         raise ConfigurationError(
-            "StackLens is not configured. "
+            "GetStackLens is not configured. "
             "Call getstacklens.configure(api_key='sl-...') before tracing."
         )
     return _async_tracer
@@ -311,7 +311,7 @@ class _PromptsNamespace:
         """
         if _prompts_client is None:
             raise ConfigurationError(
-                "StackLens is not configured. "
+                "GetStackLens is not configured. "
                 "Call getstacklens.configure(api_key='sl-...') first."
             )
         return _prompts_client.get(name, env=env)
@@ -341,7 +341,7 @@ class _AsyncPromptsNamespace:
         """
         if _async_prompts_client is None:
             raise ConfigurationError(
-                "StackLens is not configured. "
+                "GetStackLens is not configured. "
                 "Call getstacklens.configure(api_key='sl-...') first."
             )
         return await _async_prompts_client.get(name, env=env)

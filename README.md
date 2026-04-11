@@ -1,6 +1,6 @@
-# stacklens-sdk-python
+# GetStackLens Python SDK
 
-Python SDK for [StackLens](https://getstacklens.ai) — observability and governance for your AI stack.
+Python SDK for [GetStackLens](https://getstacklens.ai) — observability and governance for your AI stack.
 
 Trace LLM calls, fetch versioned prompts, and enforce AI governance policies — in three lines of Python.
 
@@ -21,7 +21,7 @@ getstacklens.configure(api_key="sl-xxxx")
 getstacklens.trace("my-llm-call", model="gpt-4o", provider="openai", input_tokens=150, output_tokens=200)
 ```
 
-Get your API key from the [StackLens dashboard](https://app.getstacklens.ai) under **Settings → API Keys**.
+Get your API key from the [GetStackLens dashboard](https://app.getstacklens.ai) under **Settings → API Keys**.
 
 ## Tracing LLM calls
 
@@ -79,7 +79,7 @@ If an exception is raised inside the context, the span status is automatically s
 
 ## Fetching versioned prompts (FlowOps)
 
-Manage prompts in the StackLens dashboard, then fetch them at runtime — no deploys needed.
+Manage prompts in the GetStackLens dashboard, then fetch them at runtime — no deploys needed.
 
 ```python
 import getstacklens
@@ -103,7 +103,7 @@ Available environments: `"dev"`, `"staging"`, `"production"` (default).
 
 ## Self-hosted deployments
 
-Point the SDK at your own StackLens instance:
+Point the SDK at your own GetStackLens instance:
 
 ```python
 getstacklens.configure(
@@ -130,7 +130,7 @@ Works with any LLM provider — pass the model and provider name you use:
 ## Links
 
 - [Documentation](https://getstacklens.ai/docs)
-- [StackLens Platform](https://getstacklens.ai)
+- [GetStackLens Platform](https://getstacklens.ai)
 - [Dashboard](https://app.getstacklens.ai)
 - [GitHub](https://github.com/getstacklens-ai/stacklens-sdk-python)
 - [Report an issue](https://github.com/getstacklens-ai/stacklens-sdk-python/issues)

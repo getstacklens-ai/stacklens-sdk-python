@@ -1,6 +1,6 @@
-StackLens Source-Available License
+GetStackLens Source-Available License
 
-Copyright (c) 2026 StackLens Private Limited. All rights reserved.
+Copyright (c) 2026 GetStackLens Private Limited. All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated files (the "Software"), to use and run it
@@ -11,9 +11,9 @@ PERMITTED:
 - Integrating the Software into your own applications
 - Reading and referencing the source code
 - Submitting corrections or improvements via pull request to the official
-  repository at https://github.com/getstacklens/stacklens-sdk-python
+  repository at https://github.com/getstacklens-ai/stacklens-sdk-python
 
-NOT PERMITTED without prior written permission from StackLens Private Limited:
+NOT PERMITTED without prior written permission from GetStackLens Private Limited:
 - Modifying or creating derivative works based on the Software
 - Redistributing the Software, in whole or in part
 - Sublicensing the Software
@@ -23,9 +23,9 @@ NOT PERMITTED without prior written permission from StackLens Private Limited:
 CONTRIBUTIONS:
 All contributions submitted via pull request are made under the terms of this
 license. By submitting a pull request, you agree to transfer copyright of your
-contribution to StackLens Private Limited and grant StackLens Private Limited the right to use,
+contribution to GetStackLens Private Limited and grant GetStackLens Private Limited the right to use,
 modify, and publish your contribution under any license.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED. IN NO EVENT SHALL STACKLENS, INC. BE LIABLE FOR ANY CLAIM, DAMAGES,
+IMPLIED. IN NO EVENT SHALL GETSTACKLENS, INC. BE LIABLE FOR ANY CLAIM, DAMAGES,
 OR OTHER LIABILITY ARISING FROM USE OF THE SOFTWARE.
