@@ -1,0 +1,36 @@
+name: Publish Changelog
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'changelog/**'
+
+jobs:
+  release:
+    name: Pack changelog artifact & notify landing
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Package changelog
+        run: tar -czf changelog.tar.gz changelog/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: changelog-${{ github.run_number }}
+          name: Changelog release ${{ github.run_number }}
+          files: changelog.tar.gz
+
+      - name: Trigger stacklens-landing rebuild
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.CROSS_REPO_TOKEN }}
+          repository: getstacklens-ai/stacklens-landing
+          event-type: changelog-updated
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
